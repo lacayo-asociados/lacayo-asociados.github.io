@@ -333,6 +333,7 @@
           <li class="no">Presentación de declaraciones</li>
         </ul>
         <a class="btn btn-ghost" href="#gratis">Empezar con 2 meses gratis</a>
+        <a href="mailto:lacayo.c01@gmail.com?subject=Suscripci%C3%B3n%20plan%20Gastos" data-plan="gastos" style="margin-top:12px;font-size:14px;color:var(--muted);text-align:center">o suscribirme directamente</a>
       </div>
       <div class="plan">
         <h3>Gastos + Ingresos</h3>
@@ -345,7 +346,7 @@
           <li>Verificación de que sus facturas se emitieron correctamente</li>
           <li class="no">Presentación de declaraciones</li>
         </ul>
-        <a class="btn btn-ghost" href="mailto:lacayo.c01@gmail.com?subject=Suscripci%C3%B3n%20plan%20Gastos%20%2B%20Ingresos" data-pay>Suscribirme</a>
+        <a class="btn btn-ghost" href="mailto:lacayo.c01@gmail.com?subject=Suscripci%C3%B3n%20plan%20Gastos%20%2B%20Ingresos" data-plan="ingresos">Suscribirme</a>
       </div>
       <div class="plan featured">
         <h3>Gestión completa</h3>
@@ -358,7 +359,7 @@
           <li>Respaldo de cada declaración presentada</li>
           <li>Consultas tributarias sobre su caso</li>
         </ul>
-        <a class="btn btn-primary" href="mailto:lacayo.c01@gmail.com?subject=Suscripci%C3%B3n%20plan%20Gesti%C3%B3n%20completa" data-pay>Suscribirme</a>
+        <a class="btn btn-primary" href="mailto:lacayo.c01@gmail.com?subject=Suscripci%C3%B3n%20plan%20Gesti%C3%B3n%20completa" data-plan="completa">Suscribirme</a>
       </div>
     </div>
     <p class="plans-note">Precios en dólares, pagaderos en colones al tipo de cambio del día. La declaración anual de renta se cotiza por separado.</p>
@@ -477,6 +478,21 @@
 </footer>
 
 <script>
+  // Links de suscripción ONVO. Cuando la cuenta esté aprobada, pegue aquí los links reales (Live).
+  // Mientras REAL esté vacío, los botones abren un correo; con ?prueba=1 en la dirección se usan los links de prueba.
+  const ONVO = {
+    REAL:   { gastos: '', ingresos: '', completa: '' },
+    PRUEBA: {
+      gastos:   'https://buy.onvopay.com/test_DcAiEn0016flGeJVnK7y3cFrGBo',
+      ingresos: 'https://buy.onvopay.com/test_hb0NqfiGLC3ADKiSJ1BYf87ZDBU',
+      completa: 'https://buy.onvopay.com/test_fuj3md90tEqAie7phoimteOuo6k'
+    }
+  };
+  const modoPrueba = new URLSearchParams(location.search).has('prueba');
+  document.querySelectorAll('[data-plan]').forEach(a => {
+    const url = (modoPrueba ? ONVO.PRUEBA : ONVO.REAL)[a.dataset.plan];
+    if (url) a.href = url;
+  });
   document.getElementById('y').textContent = new Date().getFullYear();
   const form = document.getElementById('lead-form');
   form.addEventListener('submit', async (e) => {
